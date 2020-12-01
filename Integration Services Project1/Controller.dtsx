@@ -12,8 +12,8 @@
   DTS:LocaleID="1033"
   DTS:MaxErrorCount="0"
   DTS:ObjectName="Package1"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{ACAED064-2E29-4E21-89EA-FADB73ED6451}">
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{1E90DFA5-5E6A-43FE-A88D-035EC416DBF9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -60,7 +60,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="Title"
-              DTS:DTSID="{80EF7528-3867-4478-B74A-355066889D97}"
+              DTS:DTSID="{63697343-6AC3-425E-BEC0-87EA993AD595}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -69,7 +69,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="FirstName"
-              DTS:DTSID="{18A17E26-7E83-4392-BC9C-06A1C85C8176}"
+              DTS:DTSID="{5D178DD7-1976-43AD-86F8-A0771DD51188}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -78,7 +78,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="MiddleName"
-              DTS:DTSID="{C0BED7B3-D764-4E98-98FA-A28AE0E3E876}"
+              DTS:DTSID="{8DE74B69-E827-467B-84D8-92F99FED81D3}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -87,7 +87,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="LastName"
-              DTS:DTSID="{31EAC509-5A88-4272-9DCE-08DF55B4B348}"
+              DTS:DTSID="{5A06A1DE-69B9-4B69-BBFC-F34E8BDA1A34}"
               DTS:CreationName="" />
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -96,7 +96,7 @@
               DTS:DataType="129"
               DTS:TextQualified="True"
               DTS:ObjectName="Suffix"
-              DTS:DTSID="{D39E4A76-9DE6-4730-99F1-2C555B2F5823}"
+              DTS:DTSID="{9787AFA2-88C0-4C93-AFF4-80468CDFE6E7}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>
@@ -1322,7 +1322,7 @@
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="103.472037760417,29.3586550435866,57.8892578125,16"
+              BoundingBox="103.472037760416,29.3586550435866,57.8892578125,16"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -1345,9 +1345,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-8,18.25,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1417,9 +1415,7 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="91,-22,16,16"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
