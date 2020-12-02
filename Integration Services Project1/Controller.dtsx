@@ -5,6 +5,7 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="DESKTOP-KFEHNGS"
   DTS:CreatorName="DESKTOP-KFEHNGS\Glinda"
+  DTS:DelayValidation="True"
   DTS:Description="DTS Wizard-generated package"
   DTS:DTSID="{31456676-A87E-4E00-AD9D-D69F96E46F92}"
   DTS:ExecutableType="Microsoft.Package"
@@ -12,8 +13,8 @@
   DTS:LocaleID="1033"
   DTS:MaxErrorCount="0"
   DTS:ObjectName="Package1"
-  DTS:VersionBuild="21"
-  DTS:VersionGUID="{C8BA1D49-2729-4955-AEC8-81EE67CF12E2}">
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{29B2618A-1FC8-44F4-A9FF-AB27565B8CD6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -109,7 +110,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{CB8A8212-43CF-4754-AAA0-425F4B502F5B}"
-          SQLTask:SqlStatementSource="CREATE TABLE [dbo].[Customers] (&#xA;[Title] nvarchar(50),&#xA;[FirstName] nvarchar(50),&#xA;[MiddleName] nvarchar(50),&#xA;[LastName] nvarchar(50),&#xA;[Suffix] nvarchar(50)&#xA;)&#xA;GO&#xA;CREATE TABLE [dbo].[Customers_Followup] (&#xA;[Title] nvarchar(50),&#xA;[FirstName] nvarchar(50),&#xA;[MiddleName] nvarchar(50),&#xA;[LastName] nvarchar(50),&#xA;[Suffix] nvarchar(50)&#xA;)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="CREATE TABLE [dbo].[Customers] (&#xA;PersonSK int NOT NULL,&#xA;[Title] nvarchar(50),&#xA;[FirstName] nvarchar(50),&#xA;[MiddleName] nvarchar(50),&#xA;[LastName] nvarchar(50),&#xA;[Suffix] nvarchar(50)&#xA;PRIMARY KEY (PersonSK)&#xA;)&#xA;GO&#xA;CREATE TABLE [dbo].[Customers_Followup] (&#xA;PersonSK int NOT NULL,&#xA;[Title] nvarchar(50),&#xA;[FirstName] nvarchar(50),&#xA;[MiddleName] nvarchar(50),&#xA;[LastName] nvarchar(50),&#xA;[Suffix] nvarchar(50)&#xA;PRIMARY KEY (PersonSK)&#xA;)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -117,6 +118,7 @@
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:DTSID="{490BB0E6-E531-4C28-BDCA-C2EC413924A0}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:FailPackageOnFailure="True"
       DTS:LocaleID="-1"
       DTS:ObjectName="DROP TABLE"
       DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
@@ -514,7 +516,7 @@
                       dataType="wstr"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      length="152"
+                      length="103"
                       lineageId="Package\SSISCustomers\Derived Column.Outputs[Derived Column Output].Columns[FullName]"
                       name="FullName"
                       truncationRowDisposition="FailComponent">
@@ -523,13 +525,13 @@
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Expression"
-                          name="Expression">#{Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[LastName]} + " " + #{Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[FirstName]} + " " + #{Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MiddleName]}</property>
+                          name="Expression">#{Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[LastName]} + " " + #{Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[FirstName]} + " " + [SUBSTRING](#{Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MiddleName]},1,1)</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
-                          name="FriendlyExpression">[Data Conversion 0 - 0].LastName + " " + [Data Conversion 0 - 0].FirstName + " " + [Data Conversion 0 - 0].MiddleName</property>
+                          name="FriendlyExpression">[Data Conversion 0 - 0].LastName + " " + [Data Conversion 0 - 0].FirstName + " " + SUBSTRING([Data Conversion 0 - 0].MiddleName,1,1)</property>
                       </properties>
                     </outputColumn>
                   </outputColumns>
@@ -577,7 +579,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[Customers]</property>
+                  name="OpenRowset">[dbo].[dbo.Customers]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -648,13 +650,6 @@
                       externalMetadataColumnId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[FirstName]"
                       lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[FirstName]" />
                     <inputColumn
-                      refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].Columns[MiddleName]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="MiddleName"
-                      externalMetadataColumnId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[MiddleName]"
-                      lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MiddleName]" />
-                    <inputColumn
                       refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].Columns[LastName]"
                       cachedDataType="wstr"
                       cachedLength="50"
@@ -668,6 +663,20 @@
                       cachedName="Suffix"
                       externalMetadataColumnId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[Suffix]"
                       lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[Suffix]" />
+                    <inputColumn
+                      refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].Columns[MiddleName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="MiddleName"
+                      externalMetadataColumnId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[.MiddleName]"
+                      lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MiddleName]" />
+                    <inputColumn
+                      refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].Columns[FullName]"
+                      cachedDataType="wstr"
+                      cachedLength="103"
+                      cachedName="FullName"
+                      externalMetadataColumnId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[FullName]"
+                      lineageId="Package\SSISCustomers\Derived Column.Outputs[Derived Column Output].Columns[FullName]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -682,11 +691,6 @@
                       length="50"
                       name="FirstName" />
                     <externalMetadataColumn
-                      refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[MiddleName]"
-                      dataType="wstr"
-                      length="50"
-                      name="MiddleName" />
-                    <externalMetadataColumn
                       refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[LastName]"
                       dataType="wstr"
                       length="50"
@@ -700,6 +704,16 @@
                       refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[PersonSK]"
                       dataType="i4"
                       name="PersonSK" />
+                    <externalMetadataColumn
+                      refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[.MiddleName]"
+                      dataType="wstr"
+                      length="50"
+                      name=".MiddleName" />
+                    <externalMetadataColumn
+                      refId="Package\SSISCustomers\Destination - Customers.Inputs[Destination Input].ExternalColumns[FullName]"
+                      dataType="wstr"
+                      length="152"
+                      name="FullName" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -744,7 +758,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[dbo].[Customers_Followup]</property>
+                  name="OpenRowset">[dbo].[dbo.Customers_Followup]</property>
                 <property
                   dataType="System.String"
                   description="Specifies the variable that contains the name of the database object used to open a rowset."
@@ -815,13 +829,6 @@
                       externalMetadataColumnId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
                       lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[FirstName]" />
                     <inputColumn
-                      refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].Columns[MiddleName]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="MiddleName"
-                      externalMetadataColumnId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[MiddleName]"
-                      lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MiddleName]" />
-                    <inputColumn
                       refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].Columns[LastName]"
                       cachedDataType="wstr"
                       cachedLength="50"
@@ -835,6 +842,20 @@
                       cachedName="Suffix"
                       externalMetadataColumnId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[Suffix]"
                       lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[Suffix]" />
+                    <inputColumn
+                      refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].Columns[MiddleName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="MiddleName"
+                      externalMetadataColumnId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[.MiddleName]"
+                      lineageId="Package\SSISCustomers\Data Conversion 0 - 0.Outputs[Data Conversion Output].Columns[MiddleName]" />
+                    <inputColumn
+                      refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].Columns[FullName]"
+                      cachedDataType="wstr"
+                      cachedLength="103"
+                      cachedName="FullName"
+                      externalMetadataColumnId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[FullName]"
+                      lineageId="Package\SSISCustomers\Derived Column.Outputs[Derived Column Output].Columns[FullName]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -849,11 +870,6 @@
                       length="50"
                       name="FirstName" />
                     <externalMetadataColumn
-                      refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[MiddleName]"
-                      dataType="wstr"
-                      length="50"
-                      name="MiddleName" />
-                    <externalMetadataColumn
                       refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
                       dataType="wstr"
                       length="50"
@@ -863,6 +879,20 @@
                       dataType="wstr"
                       length="50"
                       name="Suffix" />
+                    <externalMetadataColumn
+                      refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[PersonSK]"
+                      dataType="i4"
+                      name="PersonSK" />
+                    <externalMetadataColumn
+                      refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[.MiddleName]"
+                      dataType="wstr"
+                      length="50"
+                      name=".MiddleName" />
+                    <externalMetadataColumn
+                      refId="Package\SSISCustomers\Destination - Customers_Followup.Inputs[OLE DB Destination Input].ExternalColumns[FullName]"
+                      dataType="wstr"
+                      length="152"
+                      name="FullName" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1360,13 +1390,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\SSISCustomers.Paths[Data Conversion Output]"
-          TopLeft="134.666666666667,107.5">
+          TopLeft="190,107.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="310.333333333333,-48.5"
+              EndConnector="255,-48.5"
               Start="0,0"
-              End="310.333333333333,-41">
+              End="255,-41">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -1377,13 +1407,13 @@
                     Point2="0,-24.2048477191116"
                     Point3="4,-24.2048477191116" />
                   <mssgle:LineSegment
-                    End="306.333333333333,-24.2048477191116" />
+                    End="251,-24.2048477191116" />
                   <mssgle:CubicBezierSegment
-                    Point1="306.333333333333,-24.2048477191116"
-                    Point2="310.333333333333,-24.2048477191116"
-                    Point3="310.333333333333,-28.2048477191116" />
+                    Point1="251,-24.2048477191116"
+                    Point2="255,-24.2048477191116"
+                    Point3="255,-28.2048477191116" />
                   <mssgle:LineSegment
-                    End="310.333333333333,-41" />
+                    End="255,-41" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
